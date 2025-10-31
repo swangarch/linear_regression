@@ -98,6 +98,8 @@ fn training(mileages: &mut Vec<f32>, prices: &mut Vec<f32>, rate: f32) -> Result
     let mut p_range: Vec<f32> = vec![f32::INFINITY, f32::NEG_INFINITY];
     let mut theta: Vec<f32> = vec![0.0, 0.0];
     let mut o_theta: Vec<f32> = vec![0.0, 0.0];
+    let mut tmp0:f32;
+    let mut tmp1:f32;
 
     normalize(mileages, &mut m_range);
     normalize(prices, &mut p_range);
@@ -113,8 +115,11 @@ fn training(mileages: &mut Vec<f32>, prices: &mut Vec<f32>, rate: f32) -> Result
             break;
         }
 
-        theta[0] -= rate * cal_grad0(&mileages, &prices, &theta);
-        theta[1] -= rate * cal_grad1(&mileages, &prices, &theta);
+        tmp0 = cal_grad0(&mileages, &prices, &theta);
+        tmp1 = cal_grad1(&mileages, &prices, &theta);
+
+        theta[0] -= rate * tmp0;
+        theta[1] -= rate * tmp1;
 
         if i % 100 == 0 {
 
